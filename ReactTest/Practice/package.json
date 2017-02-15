@@ -10,7 +10,8 @@
     "lint": "eslint app",
     "clean": "rm -rf public/*",
     "test": "mocha --recursive --compilers js:babel-core/register --require ./test/setup.js",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "build-win": "del public && cross-env NODE_ENV=production webpack --progress --colors --config conf/webpack.prod.config.js"
   },
   "repository": {
     "type": "git",

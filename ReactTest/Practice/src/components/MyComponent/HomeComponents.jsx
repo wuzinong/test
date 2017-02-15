@@ -1,5 +1,5 @@
 
-import React,{Component} from 'react';
+import React,{Component,PropTypes} from 'react';
 
 
 import {browserHistory } from 'react-router';
@@ -8,6 +8,8 @@ import './HomeComponents.less';
 class HomeComponents extends Component{
  	constructor(props){
  		super(props);
+ 		let test = this.props.testAttr;
+ 		console.log(test);
  	}
 
  	handleSub=(e)=>{
@@ -58,6 +60,8 @@ class HomeComponents extends Component{
 	  )
 	}
 }
-
+HomeComponents.propTypes={
+	testAttr:PropTypes.string.isRequired
+}
 export default HomeComponents;
 

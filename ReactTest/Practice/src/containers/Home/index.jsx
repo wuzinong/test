@@ -47,7 +47,7 @@ class Home extends Component{
 		console.log(config);
 		return (
 			<div>
-			  <HomeComponents subResult = {this.subResult} />
+			  <HomeComponents subResult = {this.subResult} testAttr="this is a string"/>
 			  <PopUp {...config}/>
 			  <LoadingBox loadingShow ={this.state.loadingShow}/>
 			</div>

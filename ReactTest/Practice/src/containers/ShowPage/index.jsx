@@ -1,62 +1,66 @@
-import React,{Component} from 'react';
+import React,{Component,PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './index.less';
-
-//var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+import store from '../../redux/store';
+import {getItems,deleteItem,addItem,another_test} from '../../redux/action';
+import {connect} from 'react-redux';
 
 class ShowPage extends Component{
 	constructor(props){
 		super(props);
 
-		this.state = {
-			list:[]
-		}
+		// this.state = {
+		// 	list:[]
+		// }
+		// console.log("test connect");
+		// console.log(this.props.list);
+		this.state={
+			list:this.props.list
+		}//使用connect，初始化直接调用props中传递过来的list
+
+		console.log(this.props.testFuncProps());//测试props中传入方法
 	}
 
 	componentDidMount(){
 		let list = [];
-		if(window.localStorage){
-		   if(!!window.localStorage.getItem("listTest")){
-		   	  list = window.localStorage.getItem("listTest").split(',');
-		   }else{
-
-		   }
-		}
-
-		this.setState({
-			list:list
+		console.log("did mount");
+		//监听state更新
+		let unsubscribe = store.subscribe(()=>{
+			console.log(store.getState());
 		});
 	}
 
 	addClick=()=>{
+
 		let input = this.refs.addInput;
-		let list = this.state.list;
 		if(!!input.value){
-			list.push(input.value);
-			this.setState({list:list});
+			store.dispatch(addItem(input.value));
+			// let list = store.getState().handleRecord.list;
+			// this.setState({list:list}); 
+			//使用connect ，dispatch以后无需再通过getState获取最新状态，直接回更新至props
+			this.setState({list:this.props.list}); 
 			input.value = "";
-			if(window.localStorage){
-			   window.localStorage.setItem("listTest",list);
-			}
 		}
 	}
 
 	handleDelete=(e)=>{
 		let index = e.target.getAttribute("data-key");
-		let list = this.state.list;
 		if(index >=0){
-		   list.splice(index,1);
-		   this.setState({
-		   	  list:list
-		   });
-		   if(window.localStorage){
-			   window.localStorage.setItem("listTest",list);
-		   }
+		   store.dispatch(deleteItem(index));
+		   // let list = store.getState().handleRecord.list;
+		   // this.setState({
+		   // 	  list:list
+		   // });
+		   
+		    this.setState({list:this.props.list}); 
 		}
-
+		//make a test
+		store.dispatch(another_test("test word"))
 	}
 
 	render(){
+		console.log("renderred")
+		console.log(this.props.list);
 		return (
 		   <div className="showPage">
 		      <div>
@@ -86,4 +90,23 @@ class ShowPage extends Component{
 	}
 }
 
-export default ShowPage;
+const mapDispatchToProps = () => {
+	return{
+		testFuncProps() {
+			console.log("testFuncProps called")
+		}
+	}
+}
+
+
+const mapStateToProps=(state)=>{
+	return {
+		list:state.handleRecord.list
+	}
+}
+const DealdShowPage = connect(
+	mapStateToProps,//第一个参数将reduce中state的值作为props传入
+	mapDispatchToProps//第二个参数将方法作为props传入
+)(ShowPage);  //使用connect方法
+
+export default DealdShowPage;
