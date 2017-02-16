@@ -107,6 +107,6 @@ const mapStateToProps=(state)=>{
 const DealdShowPage = connect(
 	mapStateToProps,//第一个参数将reduce中state的值作为props传入
 	mapDispatchToProps//第二个参数将方法作为props传入
-)(ShowPage);  //使用connect方法
+)(ShowPage);
 
 export default DealdShowPage;

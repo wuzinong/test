@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import {DELETE_ITEM,ADD_ITEM,GET_ITEMS,ANOTHER_TEST} from '../actionTypes.js';
+import {DELETE_ITEM,ADD_ITEM,GET_ITEMS,ANOTHER_TEST,FETCH_POSTS,REQUEST_POSTS,RECEIVE_POSTS,PRE_SUBPOSTS} from '../actionTypes.js';
 
 
 const initState = {
 	list: window.localStorage.getItem("listTest").split(','),
-	test:"this is a test"
+	test:"this is a test",
+	comments:[]
 };
 
 
@@ -62,7 +63,40 @@ const anotherHandler = (state=initState,action)=>{
 }
 
 
+const requestHandler = (state=initState,action)=>{
+	switch (action.type){
+		case RECEIVE_POSTS:{
+			console.log("REQUEST_POSTS called")
+		}
+		case REQUEST_POSTS:{
+			switch (action.status){
+				case "success":{
+					console.log("reducer success")
+					return Object.assign({},state,{
+						comments:action.content
+					});
+				}
+				case "failed":{
+					console.log("fetch failed");
+					return state;
+				}
+				default:
+				  return state;
+			}
+		}
+		case PRE_SUBPOSTS:{
+			 console.log("pre_subposts called");
+		}
+		default:
+		  console.log("default return called");
+		  console.log(state);
+		  return state;
+	}
+}
+
+
 export default combineReducers({
     handleRecord,
-    anotherHandler
+    anotherHandler,
+    requestHandler
 });

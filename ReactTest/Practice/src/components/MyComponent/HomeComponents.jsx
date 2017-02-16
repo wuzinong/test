@@ -33,7 +33,10 @@ class HomeComponents extends Component{
  	goRegist=()=>{
  		browserHistory.push('/regist');
  	}
-
+ 	gotest1=()=>{
+ 		//redux 异步数据流、action、middleware等
+ 		browserHistory.push('/test1');
+ 	}
 
 	render(){
 	  return (
@@ -53,6 +56,11 @@ class HomeComponents extends Component{
 		     	  		</div>
 		     	  		<div className="col-xs-4  col-xs-offset-1">
 		     	  		<input onClick={this.goRegist} type="button" className="btn btn-large btn-success" value="regist"/>
+		     	  		</div>
+		     	  </div>
+		     	  	  <div className="form-group col-sm-10 row">
+		     	  		<div className="col-xs-4 col-xs col-xs-offset-1">
+		     	  			<input onClick={this.gotest1} type="button" className="btn btn-large btn-success" value="test1"/>
 		     	  		</div>
 		     	  </div>
 	     	</form>
